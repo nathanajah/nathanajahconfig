@@ -1,0 +1,19 @@
+- name: "install ripgrep - mac"
+  homebrew:
+    name: ripgrep
+    state: latest
+  when: ansible_distribution == 'MacOSX'
+
+- name: "install ripgrep - archlinux"
+  pacman:
+    name: ripgrep
+    state: latest
+  become: true
+  when: ansible_distribution == 'Archlinux'
+
+- name: "install ripgrep - ubuntu"
+  apt:
+    name: ripgrep
+    state: latest
+  become: true
+  when: ansible_distribution == 'Ubuntu'

@@ -3,4 +3,4 @@
     name: pynvim
     state: latest
     virtualenv: "{{ nvim_python3_venv }}"
-    virtualenv_python: python3
+    virtualenv_command: "python3 -m venv"

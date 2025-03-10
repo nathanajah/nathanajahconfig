@@ -1,9 +1,0 @@
-- name: Make sure that nvim directory exists
-  file:
-    path: ~/bin/
-    state: directory
-
-- name: Copy config
-  synchronize:
-    src: files/bin/
-    dest: ~/bin/common/

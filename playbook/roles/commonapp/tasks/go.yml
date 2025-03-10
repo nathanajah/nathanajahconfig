@@ -1,0 +1,24 @@
+- name: "install go - mac"
+  fail:
+    msg: "Implement this - not on macbook when this was written"
+  when: ansible_distribution == 'MacOSX'
+
+- name: "install golang - archlinux"
+  pacman:
+    name: go
+    state: latest
+  become: true
+  when: ansible_distribution == 'Archlinux'
+
+- name: "install gopls - archlinux"
+  pacman:
+    name: gopls
+    state: latest
+  become: true
+  when: ansible_distribution == 'Archlinux'
+
+- name: "install golang - ubuntu"
+  fail:
+    msg: "Implement this - not on ubuntu when this was written"
+  when: ansible_distribution == 'Ubuntu'
+
