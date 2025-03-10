@@ -25,5 +25,5 @@ runUbuntuPlaybook:
 	docker exec -it configubuntu ansible-playbook /nathanajahconfig/playbook/uowlaptop.yml
 
 .PHONY: sshUbuntu
-sshUbnuntu:
+sshUbuntu:
 	docker exec -it configubuntu /bin/bash
