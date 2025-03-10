@@ -1,0 +1,5 @@
+- name: Install plugins
+  command: nvim +PlugInstall +UpdateRemotePlugins +qall
+
+- name: Promptline
+  command: nvim "+PromptlineSnapshot! ~/.config/zsh/prompt.sh lightline" +qall
