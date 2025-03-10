@@ -17,3 +17,43 @@
     state: latest
   become: true
   when: ansible_distribution == 'Ubuntu'
+
+- name: "install curl - mac"
+  homebrew:
+    name: curl
+    state: latest
+  when: ansible_distribution == 'MacOSX'
+
+- name: "install curl - archlinux"
+  pacman:
+    name: curl
+    state: latest
+  become: true
+  when: ansible_distribution == 'Archlinux'
+
+- name: "install curl - ubuntu"
+  apt:
+    name: curl
+    state: latest
+  become: true
+  when: ansible_distribution == 'Ubuntu'
+
+- name: "install rsync - mac"
+  homebrew:
+    name: rsync
+    state: latest
+  when: ansible_distribution == 'MacOSX'
+
+- name: "install rsync - archlinux"
+  pacman:
+    name: rsync
+    state: latest
+  become: true
+  when: ansible_distribution == 'Archlinux'
+
+- name: "install rsync - ubuntu"
+  apt:
+    name: rsync
+    state: latest
+  become: true
+  when: ansible_distribution == 'Ubuntu'

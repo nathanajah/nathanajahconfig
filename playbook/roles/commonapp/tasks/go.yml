@@ -17,8 +17,16 @@
   become: true
   when: ansible_distribution == 'Archlinux'
 
-- name: "install golang - ubuntu"
-  fail:
-    msg: "Implement this - not on ubuntu when this was written"
+- name: "add golang backports ppa - ubuntu"
+  apt_repository:
+    repo: "ppa:longsleep/golang-backports"
+    state: "present"
+  become: true
   when: ansible_distribution == 'Ubuntu'
 
+- name: "install golang-go - ubuntu"
+  apt:
+    name: golang-go
+    state: latest
+  become: true
+  when: ansible_distribution == 'Ubuntu'

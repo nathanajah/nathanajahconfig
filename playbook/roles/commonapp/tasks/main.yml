@@ -1,3 +1,4 @@
+- import_tasks: utils.yml
 - import_tasks: cpp.yml
 - import_tasks: python.yml
 - import_tasks: tmux.yml
@@ -10,5 +11,4 @@
 - import_tasks: fzf.yml
 - import_tasks: npm.yml
 - import_tasks: node.yml
-- import_tasks: utils.yml
 - import_tasks: go.yml

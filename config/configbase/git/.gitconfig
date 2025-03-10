@@ -3,3 +3,6 @@
 
 [include]
     path = ~/.config/git/localconfig
+[user]
+	name = Your Name
+	email = you@example.com
