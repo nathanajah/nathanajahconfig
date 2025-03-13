@@ -38,6 +38,11 @@
   become: true
   when: ansible_distribution == 'Archlinux'
 
+- name: "Add lazygit tap"
+  community.general.homebrew_tap:
+    name: jesseduffield/lazygit
+  when: ansible_distribution == 'MacOSX'
+
 - name: "Install lazygit - mac"
   homebrew:
     name: jesseduffield/lazygit/lazygit

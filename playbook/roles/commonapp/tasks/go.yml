@@ -1,6 +1,7 @@
 - name: "install go - mac"
-  fail:
-    msg: "Implement this - not on macbook when this was written"
+  homebrew:
+    name: go
+    state: latest
   when: ansible_distribution == 'MacOSX'
 
 - name: "install golang - archlinux"
@@ -9,6 +10,12 @@
     state: latest
   become: true
   when: ansible_distribution == 'Archlinux'
+
+- name: "install gopls - mac"
+  homebrew:
+    name: gopls
+    state: latest
+  when: ansible_distribution == 'MacOSX'
 
 - name: "install gopls - archlinux"
   pacman:
