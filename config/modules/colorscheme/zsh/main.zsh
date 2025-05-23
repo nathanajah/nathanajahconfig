@@ -1,1 +1,1 @@
-source $ZSH_MOD_FOLDER/prompt.sh
+eval "$(starship init zsh)"
