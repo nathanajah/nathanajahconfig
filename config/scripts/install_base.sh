@@ -13,4 +13,5 @@ ln -nsf "$SCRIPT_DIR/../configbase/vim/lua/util" ~/.config/nvim/lua/util
 ln -nsf "$SCRIPT_DIR/../configbase/tmux/.tmux.conf" ~/.tmux.conf
 ln -nsf "$SCRIPT_DIR/../configbase/git/.gitconfig" ~/.gitconfig
 ln -nsf "$SCRIPT_DIR/../configbase/git/delta" ~/.config/git/delta
+ln -nsf "$SCRIPT_DIR/../configbase/zsh/starship.toml" ~/.config/starship.toml
 touch ~/.config/git/localconfig
