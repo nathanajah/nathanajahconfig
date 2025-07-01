@@ -3,6 +3,3 @@
 
 [include]
     path = ~/.config/git/localconfig
-[user]
-	email = nathanajah@gmail.com
-	name = Nathan Azaria

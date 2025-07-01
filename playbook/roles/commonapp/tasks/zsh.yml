@@ -17,3 +17,12 @@
     state: latest
   become: true
   when: ansible_distribution == 'Ubuntu'
+
+- name: "install starship"
+  shell:
+    cmd: "curl -sS https://starship.rs/install.sh | sh -s -- --yes"
+  become: true
+
+- name: "install zoxide"
+  shell:
+    cmd: "curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh"
