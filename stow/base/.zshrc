@@ -36,11 +36,13 @@ else
 fi;
 unset _zdotdir_set
 
-for f in $HOME/.config/zsh/config/modules/***/main.zsh(.N);
-do
-    ZSH_MOD_FOLDER=$(dirname $f)
-    source $f
-done
+confdir="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/conf.d"
+
+if [ -d "$confdir" ]; then
+  for f in "$confdir"/*.zsh(N); do
+    source "$f"
+  done
+fi
 
 # Editor
 export EDITOR='nvim'
@@ -118,7 +120,3 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
-
-export TERMINFO=/usr/share/terminfo
-export TERM=tmux-256color
-eval "$(zoxide init zsh)"
