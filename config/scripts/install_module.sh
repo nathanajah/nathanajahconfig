@@ -21,3 +21,6 @@ mkdir -p $ZSH_BASE/modules
 
 # Install zsh config
 ln -sfn "$SOURCE/zsh" "$ZSH_BASE/modules/$INSTALL_AS"
+
+# Install binaries
+ln -sfn "$SOURCE/bin" ~/bin/$INSTALL_AS
