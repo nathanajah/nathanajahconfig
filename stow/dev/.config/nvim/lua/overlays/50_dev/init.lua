@@ -7,6 +7,7 @@ return {
   'sindrets/diffview.nvim',
   'fredrikaverpil/neotest-golang',
   'nvim-neotest/nvim-nio',
+  { 'folke/which-key.nvim',                  config = true },
   { 'echasnovski/mini.diff',                 config = true },
   { import = "overlays.50_dev.lspconfig" },
   { import = "overlays.50_dev.trouble" },
