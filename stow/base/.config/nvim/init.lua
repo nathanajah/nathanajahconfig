@@ -1,3 +1,5 @@
+local uv = vim.uv or vim.loop
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -23,6 +25,10 @@ if not vim.loop.fs_stat(plenarypath) then
   })
 end
 vim.opt.rtp:prepend(plenarypath)
+
+
+
+require ('config.options')
 
 plugins = require('plugins')
 require('lazy').setup(plugins)
