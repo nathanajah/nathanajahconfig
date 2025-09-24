@@ -25,6 +25,10 @@ return {
       { '<F9>',        ':Telescope lsp_dynamic_workspace_symbols<CR>',          mode = 'n', desc = 'Workspace Symbols' },
       { '<Leader>sfh', '<cmd>Telescope find_files follow=true hidden=true<CR>', mode = 'n', desc = 'Find Files (hidden)' },
       { '<Leader>sk',  '<cmd>Telescope keymaps<CR>',                            mode = 'n', desc = 'Keymaps' },
+      { '<Leader>fg',  '<cmd>Telescope live_grep<CR>',                          mode = 'n', desc = 'Live grep' },
+      { '<Leader>fh',  '<cmd>Telescope help_tags<CR>',                          mode = 'n', desc = 'Help Tags' },
+      { '<Leader>fb',  '<cmd>Telescope buffers<CR>',                            mode = 'n', desc = 'Buffers' },
+      { '<Leader>ff',  '<cmd>Telescope find_files<CR>',                         mode = 'n', desc = 'Find Files' },
     }
   },
 }
