@@ -4,34 +4,40 @@ return {
     "mfussenegger/nvim-dap",
     event = { "VeryLazy" }, -- load on first keypress below
     keys = {
-      { "<F5>",  function() require("dap").continue() end,                     desc = "DAP Continue/Start" },
-      { "<F10>", function() require("dap").step_over() end,                    desc = "DAP Step Over" },
-      { "<F11>", function() require("dap").step_into() end,                    desc = "DAP Step Into" },
-      { "<F12>", function() require("dap").step_out() end,                     desc = "DAP Step Out" },
-      { "<Leader>b",  function() require("dap").toggle_breakpoint() end,       desc = "DAP Toggle Breakpoint" },
-      { "<Leader>B",  function() require("dap").set_breakpoint() end,          desc = "DAP Set Breakpoint" },
-      { "<Leader>lp", function()
+      { "<F5>",      function() require("dap").continue() end,          desc = "DAP Continue/Start" },
+      { "<F10>",     function() require("dap").step_over() end,         desc = "DAP Step Over" },
+      { "<F11>",     function() require("dap").step_into() end,         desc = "DAP Step Into" },
+      { "<F12>",     function() require("dap").step_out() end,          desc = "DAP Step Out" },
+      { "<Leader>b", function() require("dap").toggle_breakpoint() end, desc = "DAP Toggle Breakpoint" },
+      { "<Leader>B", function() require("dap").set_breakpoint() end,    desc = "DAP Set Breakpoint" },
+      {
+        "<Leader>lp",
+        function()
           require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
         end,
         desc = "DAP Set Logpoint"
       },
-      { "<Leader>dr", function() require("dap").repl.open() end,               desc = "DAP Open REPL" },
-      { "<Leader>dl", function() require("dap").run_last() end,                desc = "DAP Run Last" },
+      { "<Leader>dr", function() require("dap").repl.open() end, desc = "DAP Open REPL" },
+      { "<Leader>dl", function() require("dap").run_last() end,  desc = "DAP Run Last" },
       -- Widgets (these come from nvim-dap itself)
-      { "<Leader>df", function()
+      {
+        "<Leader>df",
+        function()
           local widgets = require("dap.ui.widgets")
           widgets.centered_float(widgets.frames)
         end,
         desc = "DAP UI: Show Frames"
       },
-      { "<Leader>ds", function()
+      {
+        "<Leader>ds",
+        function()
           local widgets = require("dap.ui.widgets")
           widgets.centered_float(widgets.scopes)
         end,
         desc = "DAP UI: Show Scopes"
       },
-      { "<Leader>dh", function() require("dap.ui.widgets").hover() end,        mode = { "n", "v" }, desc = "DAP UI: Hover" },
-      { "<Leader>dp", function() require("dap.ui.widgets").preview() end,      mode = { "n", "v" }, desc = "DAP UI: Preview" },
+      { "<Leader>dh", function() require("dap.ui.widgets").hover() end,   mode = { "n", "v" }, desc = "DAP UI: Hover" },
+      { "<Leader>dp", function() require("dap.ui.widgets").preview() end, mode = { "n", "v" }, desc = "DAP UI: Preview" },
     },
     config = function()
       -- You can put adapter configs here if you add more languages later.
@@ -56,9 +62,9 @@ return {
       dapui.setup() -- same as: require("dapui").setup()
 
       -- (Optional) auto-open/close UI on session start/end
-      dap.listeners.after.event_initialized["dapui_autoopen"] = function() dapui.open() end
+      dap.listeners.after.event_initialized["dapui_autoopen"]  = function() dapui.open() end
       dap.listeners.before.event_terminated["dapui_autoclose"] = function() dapui.close() end
-      dap.listeners.before.event_exited["dapui_autoclose"]      = function() dapui.close() end
+      dap.listeners.before.event_exited["dapui_autoclose"]     = function() dapui.close() end
     end,
   },
 

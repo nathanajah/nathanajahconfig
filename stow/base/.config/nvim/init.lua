@@ -28,11 +28,10 @@ vim.opt.rtp:prepend(plenarypath)
 
 local overlays = {}
 
-local ovHandle = uv.fs_scandir(vim.fn.stdpath('config') .. '/lua/overlays')
+local ovHandle = vim.uv.fs_scandir(vim.fn.stdpath('config') .. '/lua/overlays')
 if ovHandle then
   while true do
-    local name, type = uv.fs_scandir_next(ovHandle)
-
+    local name, _ = uv.fs_scandir_next(ovHandle)
     if not name then
       break
     end
@@ -44,12 +43,12 @@ table.sort(overlays)
 local overlayPlugins = {}
 
 for _, overlay in ipairs(overlays) do
-  table.insert(overlayPlugins, { import = 'overlays.' .. overlay } )
+  table.insert(overlayPlugins, { import = 'overlays.' .. overlay })
 end
 
 
-require ('config.options')
-plugins = require('plugins')
+require('config.options')
+local plugins = require('plugins')
 for _, overlay in ipairs(overlayPlugins) do
   table.insert(plugins, overlay)
 end

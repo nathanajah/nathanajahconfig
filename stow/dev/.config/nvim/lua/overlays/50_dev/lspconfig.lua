@@ -1,5 +1,5 @@
 return {
-    {
+  {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
 
@@ -56,7 +56,7 @@ return {
         local o = { noremap = true, silent = true }
         map("n", "gD", vim.lsp.buf.declaration, o)
         map("n", "gd", vim.lsp.buf.definition, o)
-        map("n", "K",  vim.lsp.buf.hover, o)
+        map("n", "K", vim.lsp.buf.hover, o)
         map("n", "gi", vim.lsp.buf.implementation, o)
         map("n", "<C-k>", vim.lsp.buf.signature_help, o)
         map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, o)
@@ -75,7 +75,7 @@ return {
 
       -- Your format-on-save filetypes
       format_on_save = {
-        pattern = { "*.go", "*.c", "*.cpp", "*.h", "*.hpp", "*.rs" },
+        pattern = { "*.go", "*.c", "*.cpp", "*.h", "*.hpp", "*.rs", "*.lua" },
       },
     },
 

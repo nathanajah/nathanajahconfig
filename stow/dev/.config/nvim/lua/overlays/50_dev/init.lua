@@ -6,9 +6,8 @@ return {
   'nvim-tree/nvim-web-devicons',
   'sindrets/diffview.nvim',
   'fredrikaverpil/neotest-golang',
-  'folke/neodev.nvim',
   'nvim-neotest/nvim-nio',
-  { 'echasnovski/mini.diff', config = true },
+  { 'echasnovski/mini.diff',                 config = true },
   { import = "overlays.50_dev.lspconfig" },
   { import = "overlays.50_dev.trouble" },
   { import = "overlays.50_dev.blink" },
@@ -16,4 +15,5 @@ return {
   { import = "overlays.50_dev.copilot" },
   { import = "overlays.50_dev.codecompanion" },
   { import = "overlays.50_dev.dap" },
+  { 'folke/lazydev.nvim',                    config = true },
 }

@@ -15,5 +15,5 @@ vim.opt.smartindent = true
 -- Hidden
 vim.opt.hidden = true
 
-vim.g['python3_host_prog']= vim.env.HOME .. '/.config/venv/py3/nvim/bin/python'
-vim.g['python_host_prog']= vim.env.HOME .. '/.config/venv/py2/nvim/bin/python'
+vim.g['python3_host_prog'] = vim.env.HOME .. '/.config/venv/py3/nvim/bin/python'
+vim.g['python_host_prog'] = vim.env.HOME .. '/.config/venv/py2/nvim/bin/python'
