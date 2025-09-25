@@ -4,12 +4,12 @@ return {
     "mfussenegger/nvim-dap",
     event = { "VeryLazy" }, -- load on first keypress below
     keys = {
-      { "<F5>",      function() require("dap").continue() end,          desc = "DAP Continue/Start" },
-      { "<F10>",     function() require("dap").step_over() end,         desc = "DAP Step Over" },
-      { "<F11>",     function() require("dap").step_into() end,         desc = "DAP Step Into" },
-      { "<F12>",     function() require("dap").step_out() end,          desc = "DAP Step Out" },
-      { "<Leader>b", function() require("dap").toggle_breakpoint() end, desc = "DAP Toggle Breakpoint" },
-      { "<Leader>B", function() require("dap").set_breakpoint() end,    desc = "DAP Set Breakpoint" },
+      { "<Leader>dc", function() require("dap").continue() end,          desc = "DAP Continue/Start" },
+      { "<Leader>do", function() require("dap").step_over() end,         desc = "DAP Step Over" },
+      { "<Leader>di", function() require("dap").step_into() end,         desc = "DAP Step Into" },
+      { "<Leader>dO", function() require("dap").step_out() end,          desc = "DAP Step Out" },
+      { "<Leader>db", function() require("dap").toggle_breakpoint() end, desc = "DAP Toggle Breakpoint" },
+      { "<Leader>dB", function() require("dap").set_breakpoint() end,    desc = "DAP Set Breakpoint" },
       {
         "<Leader>lp",
         function()
@@ -53,9 +53,9 @@ return {
       "nvim-neotest/nvim-nio", -- required by dap-ui
     },
     keys = {
-      { "<Leader>du", function() require("dapui").toggle() end, desc = "DAP UI: Toggle" },
-      { "<Leader>do", function() require("dapui").open() end,   desc = "DAP UI: Open" },
-      { "<Leader>dc", function() require("dapui").close() end,  desc = "DAP UI: Close" },
+      { "<Leader>dz", function() require("dapui").toggle() end, desc = "DAP UI: Toggle" },
+      { "<Leader>du", function() require("dapui").open() end,   desc = "DAP UI: Open" },
+      { "<Leader>dq", function() require("dapui").close() end,  desc = "DAP UI: Close" },
     },
     config = function()
       local dap, dapui = require("dap"), require("dapui")

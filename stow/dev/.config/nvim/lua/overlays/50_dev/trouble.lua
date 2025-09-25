@@ -11,7 +11,7 @@ return {
       }
     },
     keys = {
-      { "<F8>",       "<cmd>Trouble symbols toggle<CR>",                desc = "Trouble: Toggle Symbols" },
+      { "<leader>xs", "<cmd>Trouble symbols toggle<CR>",                desc = "Trouble: Toggle Symbols" },
       { "<leader>xx", "<cmd>Trouble diagnostics toggle<CR>",            desc = "Trouble: Toggle Diagnostics" },
       { "<leader>xl", "<cmd>Trouble lsp toggle win.position=right<CR>", desc = "Trouble: Toggle LSP" },
       { "<leader>xd", "<cmd>Trouble lsp_definitions toggle<CR>",        desc = "Trouble: Toggle LSP Definitions" },
@@ -20,6 +20,7 @@ return {
       { "<leader>xr", "<cmd>Trouble lsp_references toggle<CR>",         desc = "Trouble: Toggle LSP References" },
       { "<leader>xI", "<cmd>Trouble lsp_incoming_calls toggle<CR>",     desc = "Trouble: Toggle LSP Incoming Calls" },
       { "<leader>xO", "<cmd>Trouble lsp_outgoing_calls toggle<CR>",     desc = "Trouble: Toggle LSP Outgoing Calls" },
+      { "<leader>xo", "<cmd>Trouble open<CR>",                          desc = "Trouble: Open" },
       { "<leader>xc", function() require("trouble").close() end,        desc = "Trouble: Close" },
     }
   },
