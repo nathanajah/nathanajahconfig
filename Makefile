@@ -27,3 +27,11 @@ runUbuntuPlaybook:
 .PHONY: sshUbuntu
 sshUbuntu:
 	docker exec -it configubuntu /bin/bash
+
+.PHONY: stow
+stow:
+	stow -R --dir=stow --target=$(HOME) base dev colorscheme
+
+.PHONY: unstow
+unstow:
+	stow -D --dir=stow --target=$(HOME) base dev colorscheme

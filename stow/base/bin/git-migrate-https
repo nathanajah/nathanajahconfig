@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+#
+# git-migrate-https: convert all SSH remotes in the current git repo to HTTPS.
+#
+# Handles both SSH URL forms:
+#   1. scp-like:   git@host:path/repo.git        -> https://host/path/repo.git
+#   2. ssh:// URL: ssh://git@host[:port]/path    -> https://host/path
+#
+# Usage:
+#   git-migrate-https        # convert all SSH remotes in the current repo
+#   git-migrate-https -n     # dry-run: print what would change, modify nothing
+#   git-migrate-https -h     # show this help
+
+set -euo pipefail
+
+usage() {
+    sed -n '2,/^$/p' "$0" | sed 's/^# \{0,1\}//'
+    exit "${1:-0}"
+}
+
+# Convert a single SSH git URL to HTTPS. Prints the HTTPS URL on stdout.
+# Returns non-zero if the URL is not a recognised SSH form.
+ssh_to_https() {
+    local url="$1"
+
+    if [[ "$url" == ssh://* ]]; then
+        url="${url#ssh://}"
+        url="${url#*@}"
+        # url is now host[:port]/path
+        if [[ "$url" == *:*/* ]]; then
+            local host="${url%%:*}"
+            local path="${url#*/}"
+            url="${host}/${path}"
+        fi
+        printf 'https://%s\n' "$url"
+        return 0
+    fi
+
+    if [[ "$url" == *@*:* ]]; then
+        local rest="${url#*@}"
+        local host="${rest%%:*}"
+        local path="${rest#*:}"
+        if [[ "$path" == /* ]]; then
+            printf 'https://%s%s\n' "$host" "$path"
+        else
+            printf 'https://%s/%s\n' "$host" "$path"
+        fi
+        return 0
+    fi
+
+    return 1
+}
+
+main() {
+    local dry_run=0
+    while getopts ":nh" opt; do
+        case "$opt" in
+            n) dry_run=1 ;;
+            h) usage 0 ;;
+            \?) echo "unknown option: -$OPTARG" >&2; usage 1 ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        echo "error: not inside a git repository" >&2
+        return 1
+    fi
+
+    local changed=0 skipped=0
+    local remote url new_url
+
+    while IFS=$'\t' read -r remote url; do
+        [[ "$url" == ssh://* || "$url" == *@*:* ]] || { skipped=$((skipped + 1)); continue; }
+        if ! new_url="$(ssh_to_https "$url")"; then
+            echo "warning: could not convert $remote URL: $url" >&2
+            continue
+        fi
+        [[ "$url" != "$new_url" ]] || continue
+        if (( dry_run )); then
+            printf '%s: %s -> %s (dry-run)\n' "$remote" "$url" "$new_url"
+        else
+            git remote set-url "$remote" "$new_url"
+            printf '%s: %s -> %s\n' "$remote" "$url" "$new_url"
+        fi
+        changed=$((changed + 1))
+    done < <(git remote -v | awk '{print $1"\t"$2}' | sort -u)
+
+    if (( changed == 0 )); then
+        echo "no SSH remotes found ($skipped non-SSH skipped)"
+    elif (( dry_run )); then
+        echo "dry-run: $changed remote(s) would be converted"
+    else
+        echo "converted $changed remote(s)"
+    fi
+}
+
+main "$@"
