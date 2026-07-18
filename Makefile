@@ -28,10 +28,21 @@ runUbuntuPlaybook:
 sshUbuntu:
 	docker exec -it configubuntu /bin/bash
 
+ifeq ($(wildcard stow),stow)
+STOW_DIR := stow
+else
+STOW_DIR := main/stow
+endif
+
 .PHONY: stow
 stow:
-	stow -R --dir=stow --target=$(HOME) base dev colorscheme
+	stow -R --dir=$(STOW_DIR) --target=$(HOME) base dev colorscheme
 
 .PHONY: unstow
 unstow:
-	stow -D --dir=stow --target=$(HOME) base dev colorscheme
+	@find $(HOME) -maxdepth 5 -type l -lname '*nathanajahconfig*' \
+		-not -path '$(HOME)/git/nathanajahconfig/*' 2>/dev/null \
+		| while read -r l; do rm -f "$$l"; done; true
+
+.PHONY: restow
+restow: unstow stow

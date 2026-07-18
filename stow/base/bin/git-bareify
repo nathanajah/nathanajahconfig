@@ -1,0 +1,147 @@
+#!/usr/bin/env bash
+#
+# git-bareify: convert a normal git clone into a bare repo with worktrees.
+#
+# Turns a normal clone:
+#   ~/git/project/
+#     .git/
+#     <working files>
+#
+# Into a bare repo hidden under .bare, with a worktree for the default branch:
+#   ~/git/project/           # container dir; ls shows only worktrees
+#     .bare/                 # the bare repo (HEAD, config, objects/, refs/, ...)
+#     .git                   # gitdir file pointing at .bare (so git cmds work
+#                            # from the container)
+#     main/                  # worktree of the default branch
+#
+# After conversion, add more worktrees from the container dir:
+#   cd ~/git/project && git worktree add feature feature-branch
+#
+# Usage:
+#   git-bareify                 # convert the repo in the current directory
+#   git-bareify /path/to/repo   # convert repo at path
+#   git-bareify -n              # dry-run: show what would happen
+#   git-bareify -b <branch>     # use <branch> for the main worktree
+#   git-bareify -h              # show this help
+
+set -euo pipefail
+
+usage() {
+    sed -n '2,/^$/p' "$0" | sed 's/^# \{0,1\}//'
+    exit "${1:-0}"
+}
+
+detect_default_branch() {
+    local repo="$1" branch
+    if branch="$(git -C "$repo" symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null)"; then
+        echo "${branch#origin/}"
+        return 0
+    fi
+    if branch="$(git -C "$repo" symbolic-ref --short HEAD 2>/dev/null)"; then
+        echo "$branch"
+        return 0
+    fi
+    return 1
+}
+
+main() {
+    local dry_run=0
+    local branch_override=""
+    local repo_path="."
+
+    while getopts ":nb:h" opt; do
+        case "$opt" in
+            n) dry_run=1 ;;
+            b) branch_override="$OPTARG" ;;
+            h) usage 0 ;;
+            \?) echo "unknown option: -$OPTARG" >&2; usage 1 ;;
+            :) echo "option -$OPTARG requires an argument" >&2; usage 1 ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    [[ $# -gt 0 ]] && repo_path="$1"
+
+    repo_path="$(cd "$repo_path" 2>/dev/null && pwd)" || {
+        echo "error: cannot access path: $repo_path" >&2
+        return 1
+    }
+
+    if [[ ! -d "$repo_path/.git" ]]; then
+        echo "error: not a normal git clone (no .git directory): $repo_path" >&2
+        return 1
+    fi
+
+    if [[ "$(git -C "$repo_path" config --get core.bare 2>/dev/null)" == "true" ]]; then
+        echo "error: already a bare repo: $repo_path" >&2
+        return 1
+    fi
+
+    if ! git -C "$repo_path" diff --quiet HEAD 2>/dev/null; then
+        echo "error: working tree has uncommitted changes; commit or stash first" >&2
+        return 1
+    fi
+    if ! git -C "$repo_path" diff --cached --quiet HEAD 2>/dev/null; then
+        echo "error: index has staged changes; commit or stash first" >&2
+        return 1
+    fi
+
+    if git -C "$repo_path" status --porcelain --untracked-files=normal 2>/dev/null | grep -q '^??'; then
+        echo "error: untracked files present; commit or remove them first" >&2
+        echo "       (untracked files would be deleted by the conversion)" >&2
+        return 1
+    fi
+
+    local default_branch
+    if [[ -n "$branch_override" ]]; then
+        default_branch="$branch_override"
+        if ! git -C "$repo_path" show-ref --verify --quiet "refs/heads/$default_branch"; then
+            echo "error: branch does not exist locally: $default_branch" >&2
+            return 1
+        fi
+    else
+        default_branch="$(detect_default_branch "$repo_path")" || {
+            echo "error: could not determine default branch (HEAD detached?); use -b <branch>" >&2
+            return 1
+        }
+    fi
+
+    local worktree_path="$repo_path/$default_branch"
+    if [[ -e "$worktree_path" ]]; then
+        echo "error: worktree target already exists: $worktree_path" >&2
+        return 1
+    fi
+
+    echo "Repo:           $repo_path"
+    echo "Default branch: $default_branch"
+    echo "Bare repo:       $repo_path/.bare"
+    echo "Main worktree:  $worktree_path"
+    echo
+
+    if (( dry_run )); then
+        echo "dry-run: would convert $repo_path to .bare layout with worktree at $worktree_path"
+        return 0
+    fi
+
+    mv "$repo_path/.git" "$repo_path/.bare"
+
+    find "$repo_path" -mindepth 1 -maxdepth 1 ! -name '.bare' -exec rm -rf {} +
+
+    git -C "$repo_path/.bare" config core.bare true
+    git -C "$repo_path/.bare" config --unset core.logAllRefUpdates 2>/dev/null || true
+    git -C "$repo_path/.bare" worktree prune
+
+    echo "gitdir: ./.bare" > "$repo_path/.git"
+
+    git -C "$repo_path" worktree add "$default_branch" "$default_branch"
+
+    echo
+    echo "Done."
+    echo "  Bare repo: $repo_path/.bare"
+    echo "  Worktree:  $worktree_path"
+    echo
+    echo "Add more worktrees with:"
+    echo "  cd $repo_path && git worktree add <name> <branch>"
+}
+
+main "$@"
