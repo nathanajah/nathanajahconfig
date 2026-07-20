@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# --- Handle pg_service.conf ---
+if [ -d "$HOME/.pg_service.conf.d" ]; then
+    # Create a header
+    echo "# Generated automatically from ~/.pg_service.conf.d/" > "$HOME/.pg_service.conf"
+
+    # Loop through files, ensuring a newline between them
+    for f in "$HOME"/.pg_service.conf.d/*; do
+        [ -f "$f" ] || continue
+        cat "$f" >> "$HOME/.pg_service.conf"
+        echo "" >> "$HOME/.pg_service.conf" # Safety newline
+    done
+    echo "✅ Rebuilt ~/.pg_service.conf"
+fi
+
+# --- Handle .pgpass ---
+if [ -d "$HOME/.pgpass.d" ]; then
+    # Create a header (pgpass allows comments with #)
+    echo "# Generated automatically from ~/.pgpass.d/" > "$HOME/.pgpass"
+
+    # Loop through files
+    for f in "$HOME"/.pgpass.d/*; do
+        [ -f "$f" ] || continue
+        cat "$f" >> "$HOME/.pgpass"
+        echo "" >> "$HOME/.pgpass" # Safety newline
+    done
+
+    # CRITICAL: Set permissions strictly
+    chmod 0600 "$HOME/.pgpass"
+    echo "✅ Rebuilt ~/.pgpass (and secured permissions)"
+fi
