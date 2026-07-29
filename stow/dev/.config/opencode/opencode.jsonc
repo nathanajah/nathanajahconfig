@@ -1,11 +1,31 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  // opencode auto-loads ~/.config/opencode/opencode.jsonc as global config.
+  // The sibling ~/.config/opencode/opencode.json (provider/model/token +
+  // security denies) is regenerated on every launch, but THIS file is left
+  // alone, so our preferences persist across relaunches.
+  //
+  // GOTCHA: $OPENCODE_CONFIG (and $OPENCODE_CONFIG_CONTENT) is stripped from
+  // the environment — PATH passes through, but config-override vars do not.
+  // So a separate "opencode-custom.jsonc" loaded via $OPENCODE_CONFIG never
+  // reaches the running opencode. That is why preferences MUST live here in
+  // opencode.jsonc, not in a custom env-var-loaded file.
   "share": "manual",
   "autoupdate": "notify",
   "permission": {
-    "edit": "ask",
+    // Bash: specific allows/denies only. Deliberately NO broad "*": "ask"
+    // here. opencode's DEFAULT is "allow" (per docs), so unmatched bash
+    // commands auto-run WITHOUT a prompt. We accept that because the real
+    // security guard is the managed opencode.json, and this matches its
+    // approach (which also has no "*" catch-all).
+    //
+    // Why NOT add "*": "ask": the managed opencode.json loads first, so a
+    // "*" key in THIS file would merge AFTER its "git config *": "deny"
+    // and "rm -rf /*": "deny" rules (deep-merge; last-match-wins) and
+    // weaken those security denies to "ask". Omitting "*" keeps
+    // those denies effective. (Same reason there's no "edit": "ask"
+    // here — it would weaken the managed secret-edit denies.)
     "bash": {
-      "*": "ask",
       "git push --force*": "deny",
       "git push -f *": "deny",
       "rm -rf *": "deny",
@@ -32,8 +52,58 @@
       "git branch -v*": "allow",
       "git config --get*": "allow",
       "ls*": "allow",
-      "pwd": "allow"
+      "pwd": "allow",
+      // Content readers: these bypass the managed `read` denies (those only
+      // govern the Read tool, not bash). Deliberately allowed for
+      // convenience; the agent's instructions already forbid reading/
+      // exfiltrating secrets. Excludes env/set/history (dump secrets) and
+      // sed/awk/find/tee (have destructive variants).
+      "cat*": "allow",
+      "head*": "allow",
+      "tail*": "allow",
+      "less*": "allow",
+      "more*": "allow",
+      "nl*": "allow",
+      "diff*": "allow",
+      "od*": "allow",
+      "xxd*": "allow",
+      "strings*": "allow",
+      // File/directory inspection (metadata only, no content dump)
+      "wc*": "allow",
+      "file*": "allow",
+      "stat*": "allow",
+      "du*": "allow",
+      "df*": "allow",
+      "tree*": "allow",
+      // System/process/network info
+      "whoami*": "allow",
+      "id*": "allow",
+      "hostname*": "allow",
+      "uname*": "allow",
+      "date*": "allow",
+      "uptime*": "allow",
+      // `ps` exact + `ps *` (not `ps*`, which would also match `psql` —
+      // psql can write/DROP data).
+      "ps": "allow",
+      "ps *": "allow",
+      "lsof*": "allow",
+      "netstat*": "allow",
+      // Path utilities
+      "readlink*": "allow",
+      "realpath*": "allow",
+      "dirname*": "allow",
+      "basename*": "allow",
+      // Command lookup
+      "which*": "allow",
+      "whereis*": "allow",
+      "type*": "allow",
+      // Read-only search (agent prefers the Grep tool, but allow these too)
+      "grep*": "allow",
+      "rg*": "allow"
     },
+    // external_directory: the managed opencode.json does not set this key,
+    // so our object applies as-is. "*" (broad allow) first, specific denies
+    // after → denies win (last-match-wins within this single object).
     "external_directory": {
       "*": "allow",
       "~/.ssh/**": "deny",

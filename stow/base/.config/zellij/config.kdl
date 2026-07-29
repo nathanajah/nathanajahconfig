@@ -46,10 +46,24 @@ keybinds clear-defaults=true {
         bind "[" { BreakPaneLeft; SwitchToMode "locked"; }
         bind "]" { BreakPaneRight; SwitchToMode "locked"; }
         bind "b" { BreakPane; SwitchToMode "locked"; }
+        bind "d" {
+            NewTab {
+                layout "dev"
+                name "dev"
+            }
+            SwitchToMode "locked"
+        }
         bind "h" { GoToPreviousTab; }
         bind "j" { GoToNextTab; }
         bind "k" { GoToPreviousTab; }
         bind "l" { GoToNextTab; }
+        bind "m" {
+            NewTab {
+                layout "logs"
+                name "logs"
+            }
+            SwitchToMode "locked"
+        }
         bind "n" { NewTab; SwitchToMode "locked"; }
         bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
         bind "s" { ToggleActiveSyncTab; SwitchToMode "locked"; }
@@ -160,6 +174,8 @@ keybinds clear-defaults=true {
         bind "Alt down" { MoveFocus "down"; }
         bind "Alt up" { MoveFocus "up"; }
         bind "Alt right" { MoveFocusOrTab "right"; }
+        bind "Alt Shift left" { GoToPreviousTab; }
+        bind "Alt Shift right" { GoToNextTab; }
         bind "Alt +" { Resize "Increase"; }
         bind "Alt -" { Resize "Decrease"; }
         bind "Alt =" { Resize "Increase"; }
