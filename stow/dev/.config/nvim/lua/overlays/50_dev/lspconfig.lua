@@ -2,6 +2,10 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "mason-org/mason.nvim",
+      "saghen/blink.cmp",
+    },
 
     opts = {
       -- Shared buffer-local logic
@@ -38,8 +42,9 @@ return {
         end
       end,
 
-      -- Per-server settings (same as before)
+      -- Per-server settings
       servers = {
+        lua_ls = {},
         clangd = {},
         bashls = {},
         dockerls = {},
@@ -91,38 +96,15 @@ return {
         })
       end
 
-      -- Start each server using the new API
+      -- Configure servers and let Neovim manage startup and attachment.
       for name, server_opts in pairs(opts.servers or {}) do
-        local base = vim.lsp.config[name]
-        if not base then
+        if not vim.lsp.config[name] then
           vim.notify(("LSP: no vim.lsp.config.%s; is it installed/available?"):format(name), vim.log.levels.WARN)
         else
-          local cfg = vim.tbl_deep_extend("force", base, server_opts or {}, {
+          vim.lsp.config(name, vim.tbl_deep_extend("force", server_opts or {}, {
             on_attach = opts.on_attach,
-          })
-
-          if cfg.filetypes and #cfg.filetypes > 0 then
-            vim.api.nvim_create_autocmd("FileType", {
-              pattern = cfg.filetypes,
-              callback = function(ev)
-                local bufnr = ev.buf
-                for _, client in pairs(vim.lsp.get_clients({ bufnr = bufnr })) do
-                  if client.name == cfg.name then return end
-                end
-                vim.lsp.start(cfg, { bufnr = bufnr })
-              end,
-            })
-          else
-            vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-              callback = function(ev)
-                local bufnr = ev.buf
-                for _, client in pairs(vim.lsp.get_clients({ bufnr = bufnr })) do
-                  if client.name == cfg.name then return end
-                end
-                vim.lsp.start(cfg, { bufnr = bufnr })
-              end,
-            })
-          end
+          }))
+          vim.lsp.enable(name)
         end
       end
     end
