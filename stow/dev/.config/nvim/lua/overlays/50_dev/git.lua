@@ -2,8 +2,25 @@ return {
   {
     "sindrets/diffview.nvim",
     lazy = false,
+    opts = function()
+      local actions = require("diffview.actions")
+      return {
+        keymaps = {
+          view = {
+            { "n", "<Leader>ge", actions.focus_files, { desc = "Git: Focus File List" } },
+          },
+          file_panel = {
+            { "n", "<Leader>gl", actions.focus_entry, { desc = "Git: Focus Right Pane" } },
+          },
+          file_history_panel = {
+            { "n", "<Leader>gl", actions.focus_entry, { desc = "Git: Focus Right Pane" } },
+          },
+        },
+      }
+    end,
     keys = {
       { "<Leader>gv", "<cmd>DiffviewOpen<CR>",          desc = "Git: Review Local Changes" },
+      { "<Leader>gS", "<cmd>DiffviewOpen --cached<CR>", desc = "Git: Review Staged Changes" },
       {
         "<Leader>gr",
         function()
@@ -11,7 +28,7 @@ return {
             if not base then return end
             base = vim.trim(base)
             if base == "" then return end
-            vim.cmd.DiffviewOpen({ args = { base .. "...HEAD" } })
+            vim.cmd.DiffviewOpen({ args = { base .. "...HEAD", "--imply-local" } })
           end)
         end,
         desc = "Git: Review Branch",

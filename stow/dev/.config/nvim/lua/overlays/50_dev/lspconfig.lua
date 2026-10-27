@@ -18,7 +18,7 @@ return {
 
         -- Visual format if supported
         if client.server_capabilities.documentRangeFormattingProvider then
-          map("v", "<space>f", function() vim.lsp.buf.format({ async = false }) end, "LSP: Format Range")
+          map("v", "<leader>cf", function() vim.lsp.buf.format({ async = false }) end, "LSP: Format Selection")
         end
 
         -- Document highlight if supported
@@ -57,25 +57,25 @@ return {
 
       -- Global (non-buffer) keymaps
       keys = function()
-        local map = vim.keymap.set
-        local o = { noremap = true, silent = true }
-        map("n", "gD", vim.lsp.buf.declaration, o)
-        map("n", "gd", vim.lsp.buf.definition, o)
-        map("n", "K", vim.lsp.buf.hover, o)
-        map("n", "gi", vim.lsp.buf.implementation, o)
-        map("n", "<C-k>", vim.lsp.buf.signature_help, o)
-        map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, o)
-        map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, o)
-        map("n", "<space>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, o)
-        map("n", "<space>D", vim.lsp.buf.type_definition, o)
-        map("n", "<space>rn", vim.lsp.buf.rename, o)
-        map("n", "<space>ca", vim.lsp.buf.code_action, o)
-        map("n", "gr", vim.lsp.buf.references, o)
-        map("n", "<space>e", vim.diagnostic.open_float, o)
-        map("n", "[d", vim.diagnostic.goto_prev, o)
-        map("n", "]d", vim.diagnostic.goto_next, o)
-        map("n", "<space>q", vim.diagnostic.setloclist, o)
-        map("n", "<space>f", function() vim.lsp.buf.format({ async = false }) end, o)
+        local function map(mode, lhs, rhs, desc)
+          vim.keymap.set(mode, lhs, rhs, { noremap = true, silent = true, desc = desc })
+        end
+        map("n", "gD", vim.lsp.buf.declaration, "LSP: Go to Declaration")
+        map("n", "gd", vim.lsp.buf.definition, "LSP: Go to Definition")
+        map("n", "K", vim.lsp.buf.hover, "LSP: Hover Documentation")
+        map("n", "gi", vim.lsp.buf.implementation, "LSP: Go to Implementation")
+        map("n", "<C-k>", vim.lsp.buf.signature_help, "LSP: Signature Help")
+        map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "LSP: Add Workspace Folder")
+        map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "LSP: Remove Workspace Folder")
+        map("n", "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "LSP: List Workspace Folders")
+        map("n", "<leader>D", vim.lsp.buf.type_definition, "LSP: Go to Type Definition")
+        map("n", "<leader>cr", vim.lsp.buf.rename, "LSP: Rename Symbol")
+        map("n", "<leader>ca", vim.lsp.buf.code_action, "LSP: Code Action")
+        map("n", "gr", vim.lsp.buf.references, "LSP: Find References")
+        map("n", "<leader>e", vim.diagnostic.open_float, "Diagnostics: Show Details")
+        map("n", "[d", vim.diagnostic.goto_prev, "Diagnostics: Previous")
+        map("n", "]d", vim.diagnostic.goto_next, "Diagnostics: Next")
+        map("n", "<leader>cf", function() vim.lsp.buf.format({ async = false }) end, "LSP: Format File")
       end,
 
       -- Your format-on-save filetypes

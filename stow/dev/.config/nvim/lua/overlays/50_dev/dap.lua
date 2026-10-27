@@ -8,6 +8,12 @@ return {
       { "<F10>",     function() require("dap").step_over() end,         desc = "DAP Step Over" },
       { "<F11>",     function() require("dap").step_into() end,         desc = "DAP Step Into" },
       { "<F12>",     function() require("dap").step_out() end,          desc = "DAP Step Out" },
+      { "<Leader>dg", function() require("dap").continue() end,  desc = "DAP Go / Continue" },
+      { "<Leader>dn", function() require("dap").step_over() end, desc = "DAP Next / Step Over" },
+      { "<Leader>di", function() require("dap").step_into() end, desc = "DAP Step Into" },
+      { "<Leader>dO", function() require("dap").step_out() end,  desc = "DAP Step Out" },
+      { "<Leader>dx", function() require("dap").terminate() end, desc = "DAP Stop Debugging" },
+      { "<Leader>dR", function() require("dap").restart() end,   desc = "DAP Restart Debugging" },
       { "<Leader>b", function() require("dap").toggle_breakpoint() end, desc = "DAP Toggle Breakpoint" },
       { "<Leader>B", function() require("dap").set_breakpoint() end,    desc = "DAP Set Breakpoint" },
       {
@@ -74,7 +80,18 @@ return {
     ft = { "go", "gomod", "gowork", "gotmpl" },
     dependencies = { "mfussenegger/nvim-dap" },
     keys = {
-      { "<Leader>dt", function() require("dap-go").debug_test() end, desc = "DAP Go: Debug Test" },
+      {
+        "<Leader>dt",
+        function()
+          local test_dir = vim.fn.expand("%:p:h")
+          require("dap-go").debug_test({
+            program = test_dir,
+            dlvCwd = test_dir,
+            cwd = test_dir,
+          })
+        end,
+        desc = "DAP Go: Debug Test",
+      },
     },
     config = function()
       require("dap-go").setup() -- same as your require('dap-go').setup()
