@@ -34,6 +34,10 @@ else
 STOW_DIR := main/stow
 endif
 
+.PHONY: installArchlinux
+installArchlinux:
+	sudo pacman -S --needed --noconfirm - < packages/pacman.txt
+
 .PHONY: stow
 stow:
 	stow -R --dir=$(STOW_DIR) --target=$(HOME) base dev colorscheme

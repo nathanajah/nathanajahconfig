@@ -1,3 +1,5 @@
+#
+eval "$(mise activate zsh)"
 # zstyle must be set before "antigen use prezto", since modules are
 # initialized on that line.
 zstyle ':prezto:*:*' case-sensitive 'yes'

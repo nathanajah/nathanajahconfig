@@ -10,13 +10,6 @@
     state: latest
   when: ansible_distribution == 'MacOSX'
 
-- name: "install nvim - archlinux"
-  pacman:
-    name: neovim
-    state: latest
-  become: true
-  when: ansible_distribution == 'Archlinux'
-
 - name: "add nvim ppa - ubuntu"
   apt_repository:
     repo: "ppa:neovim-ppa/unstable"
