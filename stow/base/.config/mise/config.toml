@@ -1,0 +1,6 @@
+[tools]
+neovim = "0.12.6"
+starship = "1.27.0"
+zoxide = "0.10.0"
+yazi = "26.9.1"
+zellij = "0.46.0"
