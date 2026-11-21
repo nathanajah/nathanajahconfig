@@ -16,16 +16,3 @@
     state: "present"
   become: true
   when: ansible_distribution == 'Ubuntu'
-
-- name: "install golang-go - ubuntu"
-  apt:
-    name: golang-go
-    state: latest
-  become: true
-  when: ansible_distribution == 'Ubuntu'
-
-- name: "Install gopls - ubuntu"
-  command: go install golang.org/x/tools/gopls@latest
-  args:
-    # Prevent re-running if the binary already exists
-    creates: "{{ ansible_env.HOME }}/go/bin/gopls"

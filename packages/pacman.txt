@@ -15,3 +15,5 @@ curl
 rsync
 zsh
 mise
+ansible-lint
+stack

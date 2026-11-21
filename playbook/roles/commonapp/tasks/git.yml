@@ -4,39 +4,11 @@
     state: latest
   when: ansible_distribution == 'MacOSX'
 
-- name: "install git - archlinux"
-  pacman:
-    name: git
-    state: latest
-  become: true
-  when: ansible_distribution == 'Archlinux'
-
-- name: "install git - ubuntu"
-  apt:
-    name: git
-    state: latest
-  become: true
-  when: ansible_distribution == 'Ubuntu'
-
 - name: "install delta - mac"
   homebrew:
     name: git-delta
     state: latest
   when: ansible_distribution == 'MacOSX'
-
-- name: "Install delta - ubuntu"
-  apt:
-    name: git-delta
-    state: latest
-  become: true
-  when: ansible_distribution == 'Ubuntu'
-
-- name: "Install delta - archlinux"
-  pacman:
-    name: git-delta
-    state: latest
-  become: true
-  when: ansible_distribution == 'Archlinux'
 
 - name: "Add lazygit tap"
   community.general.homebrew_tap:
@@ -48,21 +20,3 @@
     name: jesseduffield/lazygit/lazygit
     state: latest
   when: ansible_distribution == 'MacOSX'
-
-- name: "Install lazygit - archlinux"
-  pacman:
-    name: lazygit
-    state: latest
-  become: true
-  when: ansible_distribution == 'Archlinux'
-
-- name: "Install lazygit - Ubuntu"
-  shell: |
-    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": *"v\K[^"]*')
-    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-    tar xf lazygit.tar.gz lazygit
-    install lazygit -D -t /usr/local/bin/
-  become: true
-  args:
-    creates: /usr/local/bin/lazygit
-  when: ansible_distribution == 'Ubuntu'

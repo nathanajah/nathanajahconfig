@@ -3,11 +3,3 @@
     name: node
     state: latest
   when: ansible_distribution == 'MacOSX'
-
-- name: "install nodejs - ubuntu"
-  apt:
-    name: nodejs
-    state: latest
-    update_cache: true
-  become: true
-  when: ansible_distribution == 'Ubuntu'
