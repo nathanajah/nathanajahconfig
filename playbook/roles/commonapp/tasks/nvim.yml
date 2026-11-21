@@ -9,17 +9,3 @@
     name: neovim
     state: latest
   when: ansible_distribution == 'MacOSX'
-
-- name: "add nvim ppa - ubuntu"
-  apt_repository:
-    repo: "ppa:neovim-ppa/unstable"
-    state: "present"
-  become: true
-  when: ansible_distribution == 'Ubuntu'
-
-- name: "install nvim - ubuntu"
-  apt:
-    name: neovim
-    state: latest
-  become: true
-  when: ansible_distribution == 'Ubuntu'

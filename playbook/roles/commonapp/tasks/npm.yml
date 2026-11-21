@@ -3,10 +3,3 @@
     name: npm
     state: latest
   when: ansible_distribution == 'MacOSX'
-
-- name: "install npm - ubuntu"
-  apt:
-    name: npm
-    state: latest
-  become: true
-  when: ansible_distribution == 'Ubuntu'

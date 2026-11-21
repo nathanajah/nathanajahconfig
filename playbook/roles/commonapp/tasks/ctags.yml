@@ -3,10 +3,3 @@
     name: ctags
     state: latest
   when: ansible_distribution == 'MacOSX'
-
-- name: "install ctags - ubuntu"
-  apt:
-    name: exuberant-ctags
-    state: latest
-  become: true
-  when: ansible_distribution == 'Ubuntu'

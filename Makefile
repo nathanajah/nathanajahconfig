@@ -38,6 +38,12 @@ endif
 installArchlinux:
 	sudo pacman -S --needed --noconfirm - < packages/pacman.txt
 
+.PHONY: installUbuntu
+installUbuntu:
+	sudo apt update
+	xargs -r -a packages/apt.txt sudo apt-get install -y
+	./scripts/install_additional_ubuntu.sh
+
 .PHONY: stow
 stow:
 	stow -R --dir=$(STOW_DIR) --target=$(HOME) base dev colorscheme

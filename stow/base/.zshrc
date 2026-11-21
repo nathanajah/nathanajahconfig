@@ -1,4 +1,8 @@
-#
+# Local bin
+if [ -d "$HOME/.local/bin" ]
+then
+  PATH="$HOME/.local/bin:$PATH"
+fi
 eval "$(mise activate zsh)"
 # zstyle must be set before "antigen use prezto", since modules are
 # initialized on that line.
@@ -62,12 +66,6 @@ fi
 if [ -d "$HOME/bin/common" ]
 then
   PATH="$HOME/bin/common:$PATH"
-fi
-
-# Local bin
-if [ -d "$HOME/.local/bin" ]
-then
-  PATH="$HOME/.local/bin:$PATH"
 fi
 
 if [ -d "$HOME/.rbenv/bin" ]
