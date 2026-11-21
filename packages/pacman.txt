@@ -1,0 +1,17 @@
+gcc
+ctags
+git
+git-delta
+lazygit
+go
+gopls
+nodejs
+npm
+neovim
+python
+python-pip
+ripgrep
+curl
+rsync
+zsh
+mise

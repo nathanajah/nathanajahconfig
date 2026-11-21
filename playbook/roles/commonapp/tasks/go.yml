@@ -4,25 +4,11 @@
     state: latest
   when: ansible_distribution == 'MacOSX'
 
-- name: "install golang - archlinux"
-  pacman:
-    name: go
-    state: latest
-  become: true
-  when: ansible_distribution == 'Archlinux'
-
 - name: "install gopls - mac"
   homebrew:
     name: gopls
     state: latest
   when: ansible_distribution == 'MacOSX'
-
-- name: "install gopls - archlinux"
-  pacman:
-    name: gopls
-    state: latest
-  become: true
-  when: ansible_distribution == 'Archlinux'
 
 - name: "add golang backports ppa - ubuntu"
   apt_repository:

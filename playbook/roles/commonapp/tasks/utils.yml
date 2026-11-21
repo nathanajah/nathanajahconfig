@@ -4,13 +4,6 @@
     state: latest
   when: ansible_distribution == 'MacOSX'
 
-- name: "install ripgrep - archlinux"
-  pacman:
-    name: ripgrep
-    state: latest
-  become: true
-  when: ansible_distribution == 'Archlinux'
-
 - name: "install ripgrep - ubuntu"
   apt:
     name: ripgrep
@@ -24,13 +17,6 @@
     state: latest
   when: ansible_distribution == 'MacOSX'
 
-- name: "install curl - archlinux"
-  pacman:
-    name: curl
-    state: latest
-  become: true
-  when: ansible_distribution == 'Archlinux'
-
 - name: "install curl - ubuntu"
   apt:
     name: curl
@@ -43,13 +29,6 @@
     name: rsync
     state: latest
   when: ansible_distribution == 'MacOSX'
-
-- name: "install rsync - archlinux"
-  pacman:
-    name: rsync
-    state: latest
-  become: true
-  when: ansible_distribution == 'Archlinux'
 
 - name: "install rsync - ubuntu"
   apt:
