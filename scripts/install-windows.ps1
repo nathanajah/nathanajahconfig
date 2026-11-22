@@ -31,7 +31,6 @@ if ($packageIds.Count -eq 0) {
 $winget = $null
 $failures = @()
 $installedAny = $false
-$noPackagesFound = 0x8A150014
 $noApplicableUpdate = 0x8A15002B
 
 foreach ($packageId in $packageIds) {
@@ -46,21 +45,8 @@ foreach ($packageId in $packageIds) {
         }
     }
 
-    $packageArgs = @('--id', $packageId, '--exact', '--source', 'winget', '--accept-source-agreements')
-    $listOutput = & $winget list @packageArgs
-    $listExitCode = $LASTEXITCODE
-    if ($listExitCode -eq 0) {
-        Write-Host "$packageId is already installed."
-        continue
-    }
-    if ($listExitCode -ne $noPackagesFound) {
-        $listOutput | Write-Host
-        $failures += "$packageId (list exit code $listExitCode)"
-        continue
-    }
-
     Write-Host "Installing $packageId..."
-    $installArgs = @('install') + $packageArgs + @('--no-upgrade')
+    $installArgs = @('install', '--id', $packageId, '--exact', '--source', 'winget', '--accept-source-agreements', '--no-upgrade')
     if ($packageId -eq 'MSYS2.MSYS2') {
         $installArgs += @('--location', $MsysRoot)
     }

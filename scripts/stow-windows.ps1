@@ -3,6 +3,8 @@
 <#
 .SYNOPSIS
 Runs GNU Stow from MSYS2, defaulting to base-windows in the Windows home directory.
+.DESCRIPTION
+The target directory must already exist.
 .EXAMPLE
 ./scripts/stow-windows.ps1 -WhatIf
 .EXAMPLE
@@ -32,14 +34,7 @@ if (-not (Test-Path -LiteralPath "$msysBin/stow" -PathType Leaf)) {
 }
 
 if (-not (Test-Path -LiteralPath $Target -PathType Container)) {
-    if ($WhatIf) {
-        Write-Host "Would create $Target and run GNU Stow --$($Action.ToLowerInvariant()) for $($Package -join ', ') from $StowDirectory."
-        return
-    }
-    if ($Action -eq 'Delete') {
-        throw "Stow target does not exist at $Target."
-    }
-    New-Item -ItemType Directory -Path $Target -Force | Out-Null
+    throw "Stow target directory does not exist at $Target. Create it before running this script."
 }
 
 # Stow's Unix Perl needs POSIX paths even when launched directly from PowerShell.
