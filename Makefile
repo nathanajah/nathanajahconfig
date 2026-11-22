@@ -54,5 +54,9 @@ unstow:
 		-not -path '$(HOME)/git/nathanajahconfig/*' 2>/dev/null \
 		| while read -r l; do rm -f "$$l"; done; true
 
+.PHONY: stowUow
+stowUow: stow
+	stow -R --dir=$(STOW_DIR) --target=$(HOME) uow
+
 .PHONY: restow
 restow: unstow stow
