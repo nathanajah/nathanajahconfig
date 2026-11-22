@@ -1,0 +1,6 @@
+Git.Git
+jdx.mise
+BurntSushi.ripgrep.MSVC
+junegunn.fzf
+dandavison.delta
+MSYS2.MSYS2
