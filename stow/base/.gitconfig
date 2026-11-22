@@ -1,10 +1,13 @@
 [include]
     path = ~/.config/git/delta
-[include]
-    path = ~/.config/git/localconfig
 [init]
 	defaultBranch = main
 [credential]
 	helper = manager
 [credential "https://dev.azure.com"]
 	useHttpPath = true
+[user]
+	email = nathanajah@gmail.com
+	name = Nathan Azaria
+[include]
+    path = ~/.config/git/localconfig
