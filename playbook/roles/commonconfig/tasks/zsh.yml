@@ -1,4 +1,0 @@
-- name: Clone antigen
-  git:
-    repo: https://github.com/zsh-users/antigen
-    dest: ~/.config/zsh/antigen/

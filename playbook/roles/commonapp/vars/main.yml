@@ -1,2 +1,0 @@
-nvim_python3_venv: "{{ ansible_env.HOME }}/.config/venv/py3/nvim"
-nvim_python2_venv: "{{ ansible_env.HOME }}/.config/venv/py2/nvim"

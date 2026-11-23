@@ -1,5 +1,0 @@
-- name: "install zsh - mac"
-  homebrew:
-    name: zsh
-    state: latest
-  when: ansible_distribution == 'MacOSX'

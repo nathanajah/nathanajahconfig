@@ -1,5 +1,0 @@
-- name: "install nodejs - mac"
-  homebrew:
-    name: node
-    state: latest
-  when: ansible_distribution == 'MacOSX'

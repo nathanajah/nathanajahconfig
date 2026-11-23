@@ -13,5 +13,4 @@ ripgrep
 curl
 rsync
 zsh
-ansible-lint
 haskell-stack

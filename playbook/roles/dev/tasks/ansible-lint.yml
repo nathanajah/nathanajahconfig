@@ -1,5 +1,0 @@
-- name: "Install ansible-lint - mac"
-  pip2:
-    name: ansible-lint
-    state: latest
-  when: ansible_distribution == 'MacOSX'
