@@ -1,5 +1,0 @@
-- name: "install python3 - mac"
-  homebrew:
-    name: python3
-    state: latest
-  when: ansible_distribution == 'MacOSX'

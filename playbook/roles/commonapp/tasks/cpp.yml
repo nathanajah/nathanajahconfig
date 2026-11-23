@@ -1,5 +1,0 @@
-- name: "install g++ and gcc - mac"
-  homebrew:
-    name: gcc
-    state: latest
-  when: ansible_distribution == 'MacOSX'

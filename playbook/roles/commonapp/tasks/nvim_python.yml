@@ -1,6 +1,0 @@
-- name: "install python3-neovim"
-  pip:
-    name: pynvim
-    state: latest
-    virtualenv: "{{ nvim_python3_venv }}"
-    virtualenv_command: "python3 -m venv"

@@ -1,5 +1,0 @@
-- name: "install ranger - mac"
-  homebrew:
-    name: ranger
-    state: latest
-  when: ansible_distribution == 'MacOSX'

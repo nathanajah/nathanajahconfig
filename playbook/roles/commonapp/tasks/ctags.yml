@@ -1,5 +1,0 @@
-- name: "install ctags - mac"
-  homebrew:
-    name: ctags
-    state: latest
-  when: ansible_distribution == 'MacOSX'
